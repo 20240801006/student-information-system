@@ -1,0 +1,159 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Student Information System</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+
+<div class="container">
+
+    <header>
+        <h1>Student Information System</h1>
+        <p>Manage your student records easily.</p>
+    </header>
+
+    {% with messages = get_flashed_messages() %}
+        {% for message in messages %}
+            <div class="message">
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endwith %}
+
+
+    <!-- Add Student Section -->
+
+    <section class="card">
+
+        <h2>Add New Student</h2>
+
+        <form action="/add" method="POST">
+
+            <input
+                type="text"
+                name="name"
+                placeholder="Student Name"
+                required
+            >
+
+            <input
+                type="text"
+                name="roll_number"
+                placeholder="Roll Number"
+                required
+            >
+
+            <input
+                type="text"
+                name="course"
+                placeholder="Course"
+                required
+            >
+
+            <button type="submit">
+                Add Student
+            </button>
+
+        </form>
+
+    </section>
+
+
+    <!-- Student Records Section -->
+
+    <section class="card">
+
+        <h2>Student Records</h2>
+
+        <form action="/" method="GET">
+
+            <input
+                type="text"
+                name="search"
+                value="{{ search }}"
+                placeholder="Search by name or roll number"
+            >
+
+            <button type="submit">
+                Search
+            </button>
+
+            <a href="/">Clear</a>
+
+        </form>
+
+
+        <table>
+
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Roll Number</th>
+                    <th>Course</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+
+            <tbody>
+
+                {% for student in students %}
+
+                <tr>
+
+                    <td>{{ student.name }}</td>
+
+                    <td>{{ student.roll_number }}</td>
+
+                    <td>{{ student.course }}</td>
+
+                    <td>
+
+                        <form
+                            action="/delete/{{ student.id }}"
+                            method="POST"
+                        >
+
+                            <button type="submit">
+                                Delete
+                            </button>
+
+                        </form>
+
+                    </td>
+
+                </tr>
+
+                {% else %}
+
+                <tr>
+                    <td colspan="4">
+                        No students found.
+                    </td>
+                </tr>
+
+                {% endfor %}
+
+            </tbody>
+
+        </table>
+
+    </section>
+
+    <footer>
+        Student Information Management System
+    </footer>
+
+</div>
+
+</body>
+</html>
