@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: student-information-system
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: student-information-system
+  template:
+    metadata:
+      labels:
+        app: student-information-system
+    spec:
+      containers:
+        - name: student-information-system
+          image: student-information-system:1.0
+          imagePullPolicy: Never
+          ports:
+            - containerPort: 5000
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: student-information-system
+spec:
+  type: ClusterIP
+  selector:
+    app: student-information-system
+  ports:
+    - port: 5000
+      targetPort: 5000
