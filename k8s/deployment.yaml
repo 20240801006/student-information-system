@@ -3,7 +3,7 @@ kind: Deployment
 metadata:
   name: student-information-system
 spec:
-  replicas: 2
+  replicas: 3
   selector:
     matchLabels:
       app: student-information-system
